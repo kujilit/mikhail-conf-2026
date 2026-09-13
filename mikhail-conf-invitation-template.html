@@ -498,17 +498,53 @@
     $('download').addEventListener('click', async () => {
       const b = $('download');
       b.textContent = 'Рендерю...';
-      const c = await html2canvas($('invite'), {
-        scale: 1,
-        useCORS: true,
-        backgroundColor: '#08090d'
+
+      const invite = $('invite');
+
+      // Убираем responsive-масштабирование, чтобы PNG рендерился в полном размере 1080x1350
+      const prevTransform = invite.style.transform;
+      invite.style.transform = 'none';
+
+      // html2canvas не умеет background-clip:text — подменяем градиентный текст на сплошной цвет
+      const fallbacks = { '.conf': '#b18cff', '.guest-name': '#a981ff' };
+      const restored = [];
+      Object.entries(fallbacks).forEach(([sel, color]) => {
+        invite.querySelectorAll(sel).forEach(el => {
+          restored.push({
+            el,
+            color: el.style.color,
+            bg: el.style.backgroundImage,
+            clip: el.style.webkitBackgroundClip,
+            clip2: el.style.backgroundClip
+          });
+          el.style.backgroundImage = 'none';
+          el.style.webkitBackgroundClip = 'border-box';
+          el.style.backgroundClip = 'border-box';
+          el.style.color = color;
+        });
       });
-      const a = document.createElement('a');
-      a.download = 'mikhail-conf-invitation-' +
-        (($('name').value || 'guest').replace(/\s+/g, '-').toLowerCase()) + '.png';
-      a.href = c.toDataURL('image/png');
-      a.click();
-      b.textContent = 'Скачать PNG';
+
+      try {
+        const c = await html2canvas(invite, {
+          scale: 1,
+          useCORS: true,
+          backgroundColor: '#08090d'
+        });
+        const a = document.createElement('a');
+        a.download = 'mikhail-conf-invitation-' +
+          (($('name').value || 'guest').replace(/\s+/g, '-').toLowerCase()) + '.png';
+        a.href = c.toDataURL('image/png');
+        a.click();
+      } finally {
+        invite.style.transform = prevTransform;
+        restored.forEach(r => {
+          r.el.style.color = r.color;
+          r.el.style.backgroundImage = r.bg;
+          r.el.style.webkitBackgroundClip = r.clip;
+          r.el.style.backgroundClip = r.clip2;
+        });
+        b.textContent = 'Скачать PNG';
+      }
     });
 
     update();
