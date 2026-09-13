@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MIKHAIL CONF 2026 — вечеринка-конференция</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:#08090d;color:#f5f5f7;font-family:Inter,Arial,sans-serif;overflow-x:hidden}
+body:before,body:after{content:"";position:fixed;z-index:-1;pointer-events:none;border-radius:50%;filter:blur(90px)}
+body:before{width:650px;height:650px;left:-230px;top:-180px;background:radial-gradient(circle,rgba(62,124,255,.50),rgba(143,65,221,.16) 48%,transparent 70%)}
+body:after{width:720px;height:720px;right:-250px;top:560px;background:radial-gradient(circle,rgba(242,34,103,.35),rgba(105,34,160,.12) 48%,transparent 70%)}
+.wrap{width:min(1180px,calc(100% - 48px));margin:auto}
+header{min-height:850px;padding:44px 0 80px;display:flex;flex-direction:column}
+.nav{display:flex;justify-content:space-between;align-items:center;font:12px "JetBrains Mono",monospace;color:#92929b;letter-spacing:.06em}
+.nav strong{color:#fff}
+.hero{margin:auto 0;display:grid;grid-template-columns:1.25fr .75fr;gap:60px;align-items:center}
+.eyebrow{font:11px "JetBrains Mono",monospace;color:#777782;letter-spacing:.1em}
+h1{font-size:clamp(72px,10vw,142px);line-height:.82;letter-spacing:-.075em;margin:32px 0 28px;font-weight:800}
+.subtitle{font-size:27px;line-height:1.25;color:#d3d3d9}
+.date{font:500 17px "JetBrains Mono",monospace;margin-top:42px;color:#fff}
+.note{margin-top:15px;font-size:13px;color:#888891}
+.teacher{margin-top:48px;font:11px "JetBrains Mono",monospace;line-height:1.7;color:#85858e}
+.mark{width:min(350px,70vw);aspect-ratio:1;position:relative;margin:auto}
+.mark:before{content:"";position:absolute;inset:21%;border-radius:50%;background:radial-gradient(circle,#b6dcff,rgba(74,88,255,.42) 25%,transparent 67%);filter:blur(7px)}
+.mark i{position:absolute;left:50%;top:6%;width:1px;height:88%;background:rgba(255,255,255,.45);transform-origin:50% 50%}
+.mark i:nth-child(1){transform:rotate(0deg)}.mark i:nth-child(2){transform:rotate(15deg)}.mark i:nth-child(3){transform:rotate(30deg)}.mark i:nth-child(4){transform:rotate(45deg)}.mark i:nth-child(5){transform:rotate(60deg)}.mark i:nth-child(6){transform:rotate(75deg)}.mark i:nth-child(7){transform:rotate(90deg)}.mark i:nth-child(8){transform:rotate(105deg)}.mark i:nth-child(9){transform:rotate(120deg)}.mark i:nth-child(10){transform:rotate(135deg)}.mark i:nth-child(11){transform:rotate(150deg)}.mark i:nth-child(12){transform:rotate(165deg)}
+section{padding:110px 0;border-top:1px solid rgba(255,255,255,.12)}
+h2{font-size:clamp(46px,6.5vw,82px);line-height:.9;letter-spacing:-.06em;margin:0 0 50px}
+.intro{display:grid;grid-template-columns:1fr 1fr;gap:80px}
+.intro p{font-size:22px;line-height:1.5;color:#bcbcc5;max-width:520px}
+.schedule{display:grid;grid-template-columns:110px 1fr}
+.schedule>div{padding:23px 0;border-bottom:1px solid rgba(255,255,255,.1)}
+.time{font:13px "JetBrains Mono",monospace}.event{font-size:18px;font-weight:600}.event span{display:block;color:#92929d;font-size:13px;font-weight:400;margin-top:8px;line-height:1.5}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{min-height:310px;padding:25px;border:1px solid rgba(255,255,255,.14);border-radius:20px;background:rgba(12,14,20,.72);display:flex;flex-direction:column}.num{font:11px "JetBrains Mono",monospace;color:#707079}.card h3{font-size:24px;line-height:1.05;margin:50px 0 17px}.card p{font-size:14px;line-height:1.55;color:#96969f}.arrow{margin-top:auto;font-size:20px}
+.info{display:grid;grid-template-columns:1fr 1fr;gap:18px}.box{padding:28px;border:1px solid rgba(255,255,255,.13);border-radius:20px;background:rgba(12,14,20,.62)}.label{font:11px "JetBrains Mono",monospace;color:#777781;letter-spacing:.1em}.value{font-size:23px;font-weight:600;margin-top:20px}.muted{font-size:14px;line-height:1.55;color:#96969f;margin-top:10px}
+.address{margin-top:18px;width:100%;background:#11131a;border:1px solid rgba(255,255,255,.15);border-radius:12px;padding:16px;color:#fff;font:14px Inter,Arial}.address::placeholder{color:#666873}
+.rsvp{margin-top:80px;padding:45px;border:1px solid rgba(255,255,255,.15);border-radius:24px;background:rgba(10,12,17,.78)}
+.rsvp h3{font-size:34px;letter-spacing:-.04em;margin:0 0 12px}.rsvp p{color:#92929d;font-size:14px;line-height:1.55;max-width:650px}
+.form-placeholder{margin-top:28px;min-height:260px;border:1px dashed rgba(255,255,255,.2);border-radius:14px;display:flex;align-items:center;justify-content:center;text-align:center;padding:30px;color:#777984;font:13px "JetBrains Mono",monospace}
+.form-placeholder b{display:block;color:#ddd;font-family:Inter;margin-bottom:9px;font-size:15px}
+.cta{display:inline-flex;margin-top:24px;padding:16px 22px;border-radius:999px;background:#f2f2f4;color:#08090d;text-decoration:none;font-size:12px;font-weight:700}
+footer{padding:65px 0 90px;border-top:1px solid rgba(255,255,255,.14);font:11px "JetBrains Mono",monospace;color:#777781;line-height:1.8}
+@media(max-width:760px){.wrap{width:calc(100% - 32px)}header{min-height:760px}.hero{grid-template-columns:1fr;gap:35px}.mark{width:210px;margin:0 0 0 auto}h1{font-size:78px}.intro,.info{grid-template-columns:1fr;gap:20px}.cards{grid-template-columns:1fr}.schedule{grid-template-columns:70px 1fr}section{padding:75px 0}.rsvp{padding:25px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header>
+  <nav><strong>MIKHAIL CONF</strong><span>ВЕЧЕРИНКА-КОНФЕРЕНЦИЯ / 2026</span></nav>
+  <div class="hero">
+    <div>
+      <div class="eyebrow">ЕЖЕГОДНАЯ КОНФЕРЕНЦИЯ ПО ПОВОДУ НОВОГО РЕЛИЗА</div>
+      <h1>MIKHAIL<br>CONF</h1>
+      <div class="subtitle">Один год.<br>Один новый релиз.</div>
+      <div class="date">10 ОКТЯБРЯ 2026</div>
+      <div class="note">Время уточняется.</div>
+      <div class="teacher">ЕСЛИ ТЫ ЭТО ЧИТАЕШЬ.<br>Я ТЕБЯ ЛЮБЛЮ.</div>
+    </div>
+    <div class="mark"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  </div>
+</header>
+
+<section>
+  <div class="eyebrow">01 — О КОНФЕРЕНЦИИ</div>
+  <div class="intro">
+    <h2>НЕ ПРОСТО<br>ДЕНЬ РОЖДЕНИЯ.</h2>
+    <p>Вечеринка, замаскированная под технологическую конференцию.<br><br>Зарелизим новую версию Михаила Алекссевича вместе.</p>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">02 — ПРОГРАММА (время уточняется)</div>
+  <h2>СПРИНТ<br>НА ДЕНЬ</h2>
+  <div class="schedule">
+    <div class="time">18:00</div><div class="event">РЕГИСТРАЦИЯ<span>Получаем бейджи. Делаем вид, что это серьёзная конференция.</span></div>
+    <div class="time">18:30</div><div class="event">OPENING<span>Официальное открытие MIKHAIL CONF 2026.</span></div>
+    <div class="time">18:45</div><div class="event">KEYNOTE<span>Год в ревью: фичи, баги, инциденты и roadmap.</span></div>
+    <div class="time">19:15</div><div class="event">NETWORKING<span>Еда, напитки и стратегически важные разговоры.</span></div>
+    <div class="time">20:00</div><div class="event">LIGHTNING TALKS<span>Свободная тема. До 5 минут на один доклад.</span></div>
+    <div class="time">21:15</div><div class="event">WORKSHOP<span>ТЕМА СОГЛАСОВЫВАЕТСЯ</span></div>
+    <div class="time">22:00</div><div class="event">CONF AWARDS<span>Награды за вклад в этот релиз.</span></div>
+    <div class="time">23:59</div><div class="event">PRODUCTION DEPLOY<span>Запускаем новую версию Михаила.</span></div>
+  </div>
+</section>
+
+<section id="talks">
+  <div class="eyebrow">03 — ДОКЛАДЫ</div>
+  <h2>СВОБОДНАЯ<br>ТЕМА.</h2>
+  <div class="cards">
+    <article class="card"><span class="num">01 / TOPIC</span><h3>ЛЮБАЯ ТЕМА</h3><p>Расскажи о том, что тебе интересно. Технологии, культура, наука, хобби, личный опыт или что-то совершенно неожиданное.</p><span class="arrow">↗</span></article>
+    <article class="card"><span class="num">02 / FORMAT</span><h3>ДО 5 МИНУТ</h3><p>Короткий живой доклад. Презентация — по желанию. Главное — чтобы тебе самому было интересно об этом рассказывать.</p><span class="arrow">↗</span></article>
+    <article class="card"><span class="num">03 / SPEAKER</span><h3>ТЫ</h3><p>Не нужен опыт публичных выступлений. Заполняй заявку — темы и порядок выступлений согласуем отдельно.</p><span class="arrow">↗</span></article>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">04 — ГДЕ И КОГДА</div>
+  <h2>EVENT<br>DETAILS</h2>
+  <div class="info">
+    <div class="box"><div class="label">ДАТА</div><div class="value">10 октября 2026</div><div class="muted">Суббота</div></div>
+    <div class="box"><div class="label">ВРЕМЯ</div><div class="value">[ УКАЖЕМ ПОЗЖЕ ]</div><div class="muted">Время начала будет добавлено после подтверждения количества гостей.</div></div>
+    <div class="box"><div class="label">МЕСТО</div><div class="value">Дома у Миши</div><div class="muted">Если не знаешь адрес, я вышлю его в телеграм.</div></div>
+    <div class="box"><div class="label">DRESS CODE</div><div class="value">CONFERENCE CASUAL</div><div class="muted">Но главное, чтобы было удобно дома!</div></div>
+  </div>
+</section>
+
+<section id="rsvp">
+  <div class="eyebrow">05 — CALL FOR SPEAKERS</div>
+  <div class="rsvp">
+    <h3>Хочешь выступить?</h3>
+    <p>Заполни Google-форму ниже. Тема полностью свободная — расскажи о том, что тебе действительно интересно. Можно предложить как серьёзный доклад, так и что-нибудь максимально странное.</p>
+    <!-- <div class="form-placeholder">
+      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdcZvyxEywp3R_BxhSNTgoE2d9ZvVQByVtXZiblK6p9nYL6DA/viewform?embedded=true" width="640" height="763" frameborder="0" marginheight="0" marginwidth="0">Загрузка…</iframe>
+    </div> -->
+    <a class="cta" href="https://docs.google.com/forms/d/e/1FAIpQLSdcZvyxEywp3R_BxhSNTgoE2d9ZvVQByVtXZiblK6p9nYL6DA/viewform?usp=publish-editor">ПОДАТЬ ЗАЯВКУ НА ДОКЛАД ↗</a>
+  </div>
+</section>
+
+<footer>
+MIKHAIL CONF 2026<br>
+10 ОКТЯБРЯ 2026<br><br>
+ONE MORE YEAR. ONE MORE RELEASE.<br>
+ДО СКОРОЙ ВСТРЕЧИ.
+</footer>
+</main>
+</body>
+</html>
