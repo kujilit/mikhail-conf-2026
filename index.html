@@ -41,6 +41,12 @@ h2{font-size:clamp(46px,6.5vw,82px);line-height:.9;letter-spacing:-.06em;margin:
 .form-placeholder{margin-top:28px;min-height:260px;border:1px dashed rgba(255,255,255,.2);border-radius:14px;display:flex;align-items:center;justify-content:center;text-align:center;padding:30px;color:#777984;font:13px "JetBrains Mono",monospace}
 .form-placeholder b{display:block;color:#ddd;font-family:Inter;margin-bottom:9px;font-size:15px}
 .cta{display:inline-flex;margin-top:24px;padding:16px 22px;border-radius:999px;background:#f2f2f4;color:#08090d;text-decoration:none;font-size:12px;font-weight:700}
+.talks-list{display:flex;flex-direction:column;gap:14px}
+.talk{display:flex;justify-content:space-between;align-items:center;gap:24px;padding:22px 26px;border:1px solid rgba(255,255,255,.14);border-radius:18px;background:rgba(12,14,20,.72)}
+.talk .body{display:flex;flex-direction:column;gap:8px}
+.talk h3{font-size:22px;line-height:1.1;margin:0;font-weight:700}
+.talk .speaker{font:12px "JetBrains Mono",monospace;color:#92929d;letter-spacing:.04em}
+.talks-empty{color:#777984;font:13px "JetBrains Mono",monospace}
 footer{padding:65px 0 90px;border-top:1px solid rgba(255,255,255,.14);font:11px "JetBrains Mono",monospace;color:#777781;line-height:1.8}
 @media(max-width:760px){.wrap{width:calc(100% - 32px)}header{min-height:760px}.hero{grid-template-columns:1fr;gap:35px}.mark{width:210px;margin:0 0 0 auto}h1{font-size:78px}.intro,.info{grid-template-columns:1fr;gap:20px}.cards{grid-template-columns:1fr}.schedule{grid-template-columns:70px 1fr}section{padding:75px 0}.rsvp{padding:25px}}
 </style>
@@ -94,8 +100,16 @@ footer{padding:65px 0 90px;border-top:1px solid rgba(255,255,255,.14);font:11px 
   </div>
 </section>
 
+<section id="topics">
+  <div class="eyebrow">04 — ТЕМЫ И СПИКЕРЫ</div>
+  <h2>КТО О ЧЁМ<br>РАССКАЖЕТ.</h2>
+  <div class="talks-list" id="talks-list">
+    <p class="talks-empty">Темы скоро появятся.</p>
+  </div>
+</section>
+
 <section>
-  <div class="eyebrow">04 — ГДЕ И КОГДА</div>
+  <div class="eyebrow">05 — ГДЕ И КОГДА</div>
   <h2>EVENT<br>DETAILS</h2>
   <div class="info">
     <div class="box"><div class="label">ДАТА</div><div class="value">10 октября 2026</div><div class="muted">Суббота</div></div>
@@ -106,7 +120,7 @@ footer{padding:65px 0 90px;border-top:1px solid rgba(255,255,255,.14);font:11px 
 </section>
 
 <section id="rsvp">
-  <div class="eyebrow">05 — CALL FOR SPEAKERS</div>
+  <div class="eyebrow">06 — CALL FOR SPEAKERS</div>
   <div class="rsvp">
     <h3>Хочешь выступить?</h3>
     <p>Заполни Google-форму ниже. Тема полностью свободная — расскажи о том, что тебе действительно интересно. Можно предложить как серьёзный доклад, так и что-нибудь максимально странное.</p>
@@ -124,5 +138,23 @@ ONE MORE YEAR. ONE MORE RELEASE.<br>
 ДО СКОРОЙ ВСТРЕЧИ.
 </footer>
 </main>
+<script>
+const escapeHtml = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const talksList = document.getElementById("talks-list");
+fetch("talks.json")
+  .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+  .then(data => {
+    const talks = data.talks || [];
+    if (!talks.length) return;
+    talksList.innerHTML = talks.map((t, i) =>
+      '<div class="talk">' +
+        '<div class="body"><span class="num">' + String(i + 1).padStart(2, "0") + ' / TOPIC</span>' +
+        '<h3>' + escapeHtml(t.topic) + '</h3></div>' +
+        '<div class="speaker">' + escapeHtml(t.speaker || "спикер уточняется") + '</div>' +
+      '</div>'
+    ).join("");
+  })
+  .catch(() => {});
+</script>
 </body>
 </html>
