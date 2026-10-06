@@ -41,8 +41,7 @@ async function getAccessToken(serviceAccount) {
   return data.access_token;
 }
 
-async function fetchRows(accessToken, sheetId, range) {
-  const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${encodeURIComponent(range)}`;
+async function fetchJson(accessToken, url) {
   const res = await fetch(url, {
     headers: { Authorization: `Bearer ${accessToken}` },
   });
@@ -51,20 +50,41 @@ async function fetchRows(accessToken, sheetId, range) {
     throw new Error(`Sheets request failed: ${res.status} ${await res.text()}`);
   }
 
-  const data = await res.json();
+  return res.json();
+}
+
+async function fetchRows(accessToken, sheetId, range) {
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${encodeURIComponent(range)}`;
+  const data = await fetchJson(accessToken, url);
   return data.values || [];
+}
+
+async function fetchFirstSheetTitle(accessToken, sheetId) {
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}?fields=sheets.properties.title`;
+  const data = await fetchJson(accessToken, url);
+  const title = data.sheets?.[0]?.properties?.title;
+  if (!title) throw new Error("No sheet found in spreadsheet");
+  return title;
 }
 
 async function main() {
   const raw = process.env.GOOGLE_SERVICE_ACCOUNT;
   const sheetId = process.env.GOOGLE_SHEET_ID;
-  const range = process.env.GOOGLE_SHEET_RANGE || "Sheet1!A2:C";
+  let range = process.env.GOOGLE_SHEET_RANGE || "";
 
   if (!raw) throw new Error("GOOGLE_SERVICE_ACCOUNT is not set");
   if (!sheetId) throw new Error("GOOGLE_SHEET_ID is not set");
 
   const serviceAccount = JSON.parse(raw);
   const accessToken = await getAccessToken(serviceAccount);
+
+  if (!range) {
+    const title = await fetchFirstSheetTitle(accessToken, sheetId);
+    range = `'${title}'!A2:C`;
+  } else if (!range.includes("!")) {
+    range = `'${range}'!A2:C`;
+  }
+
   const rows = await fetchRows(accessToken, sheetId, range);
 
   const talks = rows
